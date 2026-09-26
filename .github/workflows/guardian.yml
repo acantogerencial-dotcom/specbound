@@ -1,0 +1,21 @@
+# Guardian gate: runs on every pull request an agent opens.
+# If spec data is malformed or the site fails to build, the PR is marked
+# failed and the Telegram approval message will show "Tests: failed".
+name: Guardian
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - name: Validate spec data
+        run: npm run validate
+      - name: Build site
+        run: npx astro build

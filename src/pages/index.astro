@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+import HeroSheet from '../components/HeroSheet.astro';
+import { SITE } from '../site.config.js';
+import { getAllSpecs, getPlatforms, CHANNELS } from '../lib/specs.js';
+const specs = getAllSpecs();
+const platforms = getPlatforms();
+// Hero: every seeded unit drawn at one shared scale, like a trafficking sheet.
+const heroUnits = specs.filter((s) => s.channel === 'display' && s.dimensions?.length).slice(0, 6)
+  .map((s) => ({ width: s.dimensions[0].width, height: s.dimensions[0].height, name: s.placement }));
+---
+<Base title={SITE.name} description="Current ad specs for every major platform, with the source linked on every page. Sizes, file limits, durations, and safe zones in one place.">
+  <section class="hero">
+    <h1>{SITE.tagline}</h1>
+    <p class="lede">Sizes, file limits, video durations, and safe zones for every major ad platform. Each spec links to the official source and shows when it was last checked.</p>
+    <div class="sheet hero-sheet">
+      <HeroSheet units={heroUnits} />
+      <p class="sheet-caption">IAB standard display units, drawn to scale.</p>
+    </div>
+  </section>
+
+  <section class="library" aria-labelledby="lib">
+    <h2 id="lib">Spec library</h2>
+    {platforms.map((p) => (
+      <section class="platform">
+        <div class="platform-head">
+          <h3><a href={`/${p.slug}/`}>{p.name}</a></h3>
+          <span>{[...p.channels].map((c) => CHANNELS[c]).join(', ')}</span>
+        </div>
+        <ul class="spec-list">
+          {p.specs.map((s) => (
+            <li>
+              <a href={`/${p.slug}/${s.slug}/`}>
+                <span>{s.placement}</span>
+                <span class="size">{s.dimensions?.[0] ? `${s.dimensions[0].width}×${s.dimensions[0].height}` : s.aspect_ratios?.[0] ?? ''}</span>
+                <span class={s.status === 'verified' ? 'status' : 'status review'}>{s.status === 'verified' ? 'Verified' : 'Pending verification'}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </section>
+</Base>

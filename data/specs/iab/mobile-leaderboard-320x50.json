@@ -1,0 +1,55 @@
+{
+  "id": "iab-mobile-leaderboard-320x50",
+  "platform": {
+    "slug": "iab",
+    "name": "IAB Standard Display"
+  },
+  "channel": "display",
+  "placement": "Mobile Leaderboard",
+  "slug": "mobile-leaderboard-320x50",
+  "summary": "320×50 px. Small mobile banner pinned to the top or bottom of a screen.",
+  "creative_types": [
+    "image",
+    "animated-image",
+    "html5"
+  ],
+  "dimensions": [
+    {
+      "width": 320,
+      "height": 50,
+      "label": "Standard"
+    },
+    {
+      "width": 640,
+      "height": 100,
+      "label": "2x retina, served at standard size"
+    }
+  ],
+  "aspect_ratios": [],
+  "file": {
+    "formats": [
+      "jpg",
+      "png",
+      "gif",
+      "html5"
+    ],
+    "max_size_kb": null,
+    "initial_load_kb": null,
+    "subload_kb": null
+  },
+  "video": null,
+  "safe_zone": null,
+  "text_limits": [],
+  "notes": [
+    "Most publishers and ad servers set their own file-size caps on top of IAB guidance. Check the buy's IO."
+  ],
+  "sources": [
+    "https://iabtechlab.com/standards/iab-new-ad-portfolio/"
+  ],
+  "verified_date": "2026-09-26",
+  "status": "needs_review",
+  "review_notes": [
+    "Seed entry: dimensions are the long-standing IAB size; confirm file-size and initial-load limits from the source on Day 3.",
+    "Confirm the source URL still resolves."
+  ]
+}

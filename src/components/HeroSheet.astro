@@ -1,0 +1,33 @@
+---
+// All units in one drawing at true relative scale, bottom-aligned like a
+// trafficking sheet. Scales down fluidly with the viewport.
+interface Props { units: { width: number; height: number; name: string }[] }
+const units = [...Astro.props.units].sort((a, b) => b.height - a.height || a.width - b.width);
+const gap = 110, pad = 70, c = 18, g = 10;
+const maxH = Math.max(...units.map((u) => u.height));
+let cursor = pad;
+const placed = units.map((u) => {
+  const x = cursor;
+  cursor += u.width + gap;
+  return { ...u, x, y: pad + maxH - u.height };
+});
+const vbW = cursor - gap + pad + 40;
+const vbH = pad + maxH + 110;
+---
+<svg class="blueprint hero-drawing" viewBox={`0 0 ${vbW} ${vbH}`} role="img" aria-label="Standard display ad units drawn to scale">
+  <defs>
+    <marker id="harrow" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,1 L7,4 L0,7" fill="none" stroke="#38BDF8" stroke-width="1.2" />
+    </marker>
+  </defs>
+  {placed.map((u) => (
+    <g>
+      <rect x={u.x} y={u.y} width={u.width} height={u.height} class="unit" style="stroke-width:3;stroke-dasharray:12 8" />
+      <g class="crop" style="stroke-width:3">
+        <path style="stroke-width:3" d={`M${u.x - g - c},${u.y} h${c} M${u.x},${u.y - g - c} v${c} M${u.x + u.width + g},${u.y} h${c} M${u.x + u.width},${u.y - g - c} v${c} M${u.x - g - c},${u.y + u.height} h${c} M${u.x},${u.y + u.height + g} v${c} M${u.x + u.width + g},${u.y + u.height} h${c} M${u.x + u.width},${u.y + u.height + g} v${c}`} />
+      </g>
+      <line x1={u.x} y1={pad + maxH + 62} x2={u.x + u.width} y2={pad + maxH + 62} stroke="#38BDF8" stroke-width="2" marker-start="url(#harrow)" marker-end="url(#harrow)" />
+      <text x={u.x + u.width / 2} y={pad + maxH + 100} text-anchor="middle" class="hero-dim">{u.width}×{u.height}</text>
+    </g>
+  ))}
+</svg>

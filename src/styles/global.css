@@ -1,0 +1,128 @@
+:root {
+  --ink: #0F1B2D;
+  --ink-2: #1B2B44;
+  --cyan: #38BDF8;
+  --pass: #22C55E;
+  --warn: #F59E0B;
+  --fail: #EF4444;
+  --paper: #F7F7F5;
+  --line: #D9DDE3;
+  --muted: #56627A;
+  --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --measure: 68ch;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+*, *::before, *::after { box-sizing: inherit; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 1rem/1.6 var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--ink); text-decoration-color: var(--cyan); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--ink); }
+:focus-visible { outline: 3px solid var(--cyan); outline-offset: 2px; }
+img, svg { max-width: 100%; }
+
+.skip { position: absolute; left: -999px; }
+.skip:focus { left: 1rem; top: 1rem; background: var(--ink); color: var(--paper); padding: .5rem .75rem; z-index: 10; }
+
+.site-header, main, .site-footer { width: min(1080px, 100% - 2.5rem); margin-inline: auto; }
+.site-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.25rem 0; }
+.brand { display: inline-flex; align-items: center; gap: .6rem; font-weight: 700; font-size: 1.125rem; text-decoration: none; letter-spacing: -0.01em; }
+nav { display: flex; gap: 1.25rem; font-size: .9375rem; }
+nav a { text-decoration: none; color: var(--muted); }
+nav a:hover { color: var(--ink); }
+
+h1, h2, h3 { line-height: 1.15; letter-spacing: -0.02em; margin: 0; }
+h1 { font-size: clamp(2.25rem, 5vw, 3.5rem); font-weight: 700; }
+h2 { font-size: 1.5rem; font-weight: 600; }
+h3 { font-size: 1.0625rem; font-weight: 600; }
+p { max-width: var(--measure); }
+.mono { font-family: var(--mono); font-feature-settings: 'zero' 1; }
+.lede { font-size: 1.1875rem; color: var(--muted); margin: 1rem 0 0; }
+
+/* Blueprint panel: the one bold element */
+.sheet {
+  background-color: var(--ink);
+  background-image:
+    linear-gradient(rgba(56,189,248,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56,189,248,.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--cyan);
+  border-radius: 6px;
+  padding: clamp(1rem, 3vw, 2rem);
+  overflow-x: auto;
+}
+.blueprint { display: block; margin-inline: auto; height: auto; overflow: visible; }
+.blueprint .unit { fill: rgba(56,189,248,.06); stroke: #F7F7F5; stroke-width: 1.5; stroke-dasharray: 6 4; }
+.blueprint .unit-label { fill: #F7F7F5; font: 500 13px var(--sans); }
+.blueprint .crop path { stroke: var(--cyan); stroke-width: 1.5; fill: none; }
+.blueprint .dim { color: var(--cyan); }
+.blueprint .dim line { stroke: var(--cyan); stroke-width: 1; }
+.blueprint .dim text { fill: var(--cyan); font: 500 13px var(--mono); }
+
+/* Home */
+.hero { padding: clamp(2rem, 6vw, 4.5rem) 0 2.5rem; }
+.hero h1 { max-width: 20ch; }
+.hero-drawing { width: 100%; min-width: 560px; }
+.hero-dim { fill: #38BDF8; font: 500 30px var(--mono); }
+.hero-sheet { margin-top: 2.5rem; }
+.sheet-caption { color: rgba(247,247,245,.7); font-size: .875rem; margin: 1rem auto 0; text-align: center; }
+
+.library { padding: 2rem 0 4rem; }
+.library > h2 { margin-bottom: 1.5rem; }
+.platform { border-top: 2px solid var(--ink); padding-top: 1rem; margin-bottom: 2.5rem; }
+.platform-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: .5rem; }
+.platform-head span { color: var(--muted); font-size: .9375rem; }
+.spec-list { list-style: none; margin: 0; padding: 0; }
+.spec-list li { border-bottom: 1px solid var(--line); }
+.spec-list a {
+  display: grid; grid-template-columns: 1fr auto auto; gap: 1rem; align-items: center;
+  padding: .8rem .25rem; text-decoration: none;
+}
+.spec-list a:hover { background: rgba(56,189,248,.08); }
+.spec-list .size { font-family: var(--mono); color: var(--ink-2); }
+
+.status { display: inline-flex; align-items: center; gap: .4rem; font-size: .8125rem; color: var(--muted); white-space: nowrap; }
+.status::before { content: ''; width: .55rem; height: .55rem; border-radius: 50%; background: var(--pass); }
+.status.review::before { background: var(--warn); }
+
+/* Spec page */
+.crumbs { font-size: .875rem; color: var(--muted); padding-top: 1.5rem; }
+.crumbs a { color: var(--muted); }
+.spec-head { padding: 1rem 0 2rem; }
+.notice {
+  border-left: 4px solid var(--warn); background: #FEF6E7; padding: .85rem 1rem; margin: 0 0 2rem;
+  max-width: var(--measure); font-size: .9375rem;
+}
+.notice ul { margin: .35rem 0 0; padding-left: 1.1rem; }
+.spec-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 2.5rem; align-items: start; padding-bottom: 4rem; }
+.spec-table { width: 100%; border-collapse: collapse; }
+.spec-table th, .spec-table td { text-align: left; padding: .7rem 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+.spec-table th { font-weight: 500; color: var(--muted); width: 42%; padding-right: 1rem; }
+.spec-table td { font-family: var(--mono); font-size: .9375rem; }
+.spec-table .unknown { font-family: var(--sans); color: var(--muted); font-style: italic; }
+.side h2 { font-size: 1.125rem; margin: 2rem 0 .6rem; }
+.side h2:first-child { margin-top: 0; }
+.side ul { padding-left: 1.1rem; margin: 0; }
+.side li { margin-bottom: .4rem; }
+.source a { word-break: break-all; }
+
+.site-footer { border-top: 1px solid var(--line); padding: 1.5rem 0 2.5rem; font-size: .875rem; color: var(--muted); }
+.site-footer p { margin: .25rem 0; }
+
+@media (max-width: 760px) {
+  .spec-grid { grid-template-columns: 1fr; }
+  .spec-list a { grid-template-columns: 1fr auto; }
+  .spec-list .status { grid-column: 1 / -1; }
+  nav { gap: .9rem; font-size: .875rem; }
+  nav a { white-space: nowrap; }
+  .brand span { font-size: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }

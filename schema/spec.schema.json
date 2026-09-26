@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://specbound.pages.dev/schema/spec.schema.json",
+  "title": "Specbound ad specification",
+  "description": "One placement on one platform. The Spec Sentinel agent must output exactly this shape. Unknown values are null, never guessed.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "platform", "channel", "placement", "slug", "creative_types", "sources", "verified_date", "status"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Globally unique. Convention: <platform-slug>-<placement-slug>."
+    },
+    "platform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slug", "name"],
+      "properties": {
+        "slug": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+        "name": { "type": "string", "minLength": 2 }
+      }
+    },
+    "channel": {
+      "enum": ["display", "social", "ctv", "online-video", "dooh", "retail-media", "audio", "native", "search"]
+    },
+    "placement": { "type": "string", "minLength": 2, "description": "Human name, e.g. 'In-Feed Video'." },
+    "slug": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "description": "URL segment for the page." },
+    "summary": { "type": ["string", "null"], "maxLength": 200, "description": "One-line answer shown at the top of the page." },
+    "creative_types": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "enum": ["image", "animated-image", "html5", "video", "audio", "text", "carousel", "vast", "vpaid"] }
+    },
+    "dimensions": {
+      "type": "array",
+      "description": "Accepted sizes. Empty array means the source defines ratios only.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["width", "height"],
+        "properties": {
+          "width": { "type": "integer", "minimum": 1 },
+          "height": { "type": "integer", "minimum": 1 },
+          "label": { "type": ["string", "null"], "description": "e.g. 'Recommended', 'Minimum', '2x retina'." }
+        }
+      }
+    },
+    "aspect_ratios": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[0-9]+(\\.[0-9]+)?:[0-9]+(\\.[0-9]+)?$" }
+    },
+    "file": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "formats": { "type": "array", "items": { "type": "string" } },
+        "max_size_kb": { "type": ["number", "null"], "minimum": 0 },
+        "initial_load_kb": { "type": ["number", "null"], "minimum": 0, "description": "HTML5 initial load budget." },
+        "subload_kb": { "type": ["number", "null"], "minimum": 0 }
+      }
+    },
+    "video": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "min_duration_s": { "type": ["number", "null"], "minimum": 0 },
+        "max_duration_s": { "type": ["number", "null"], "minimum": 0 },
+        "allowed_durations_s": { "type": "array", "items": { "type": "number" }, "description": "For CTV slots like 15/30." },
+        "containers": { "type": "array", "items": { "type": "string" } },
+        "video_codecs": { "type": "array", "items": { "type": "string" } },
+        "audio_codecs": { "type": "array", "items": { "type": "string" } },
+        "min_bitrate_kbps": { "type": ["number", "null"], "minimum": 0 },
+        "max_bitrate_kbps": { "type": ["number", "null"], "minimum": 0 },
+        "frame_rates": { "type": "array", "items": { "type": "number" } },
+        "loudness_lufs": { "type": ["number", "null"] }
+      }
+    },
+    "safe_zone": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "description": "Pixels to keep clear of platform UI, measured on the first listed dimension.",
+      "properties": {
+        "top_px": { "type": ["integer", "null"], "minimum": 0 },
+        "bottom_px": { "type": ["integer", "null"], "minimum": 0 },
+        "left_px": { "type": ["integer", "null"], "minimum": 0 },
+        "right_px": { "type": ["integer", "null"], "minimum": 0 }
+      }
+    },
+    "text_limits": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["field", "max_chars"],
+        "properties": {
+          "field": { "type": "string" },
+          "max_chars": { "type": "integer", "minimum": 1 },
+          "recommended_chars": { "type": ["integer", "null"], "minimum": 1 }
+        }
+      }
+    },
+    "notes": { "type": "array", "items": { "type": "string", "maxLength": 300 } },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Official documentation only. No blogs, no aggregators.",
+      "items": { "type": "string", "format": "uri", "pattern": "^https://" }
+    },
+    "verified_date": { "type": "string", "format": "date" },
+    "status": {
+      "enum": ["verified", "needs_review"],
+      "description": "Only a human approval sets 'verified'."
+    },
+    "review_notes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "What still needs checking. Must be non-empty when status is needs_review."
+    }
+  },
+  "if": { "properties": { "status": { "const": "needs_review" } } },
+  "then": { "required": ["review_notes"], "properties": { "review_notes": { "minItems": 1 } } }
+}

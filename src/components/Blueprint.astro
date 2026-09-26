@@ -1,0 +1,38 @@
+---
+// Draws an ad unit to scale, blueprint style: dashed outline, crop marks,
+// dimension lines. This is the one signature visual of the brand.
+interface Props { width: number; height: number; maxW?: number; maxH?: number; label?: string }
+const { width, height, maxW = 520, maxH = 320, label } = Astro.props;
+const scale = Math.min(maxW / width, maxH / height, 1.6);
+const w = Math.round(width * scale);
+const h = Math.round(height * scale);
+const pad = 56;
+const vbW = w + pad * 2;
+const vbH = h + pad * 2;
+const x = pad, y = pad;
+const c = 12;
+const gap = 6;
+---
+<svg class="blueprint" viewBox={`0 0 ${vbW} ${vbH}`} role="img"
+  aria-label={`${width} by ${height} pixel ad unit drawn to scale`}
+  style={`max-width:${vbW}px`}>
+  <defs>
+    <marker id="arrow" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,1 L7,4 L0,7" fill="none" stroke="currentColor" stroke-width="1.2" />
+    </marker>
+  </defs>
+  <rect x={x} y={y} width={w} height={h} class="unit" />
+  {label && <text x={x + w / 2} y={y + h / 2} class="unit-label" text-anchor="middle" dominant-baseline="middle">{label}</text>}
+  <g class="crop">
+    <path d={`M${x - gap - c},${y} h${c} M${x},${y - gap - c} v${c}`} />
+    <path d={`M${x + w + gap},${y} h${c} M${x + w},${y - gap - c} v${c}`} />
+    <path d={`M${x - gap - c},${y + h} h${c} M${x},${y + h + gap} v${c}`} />
+    <path d={`M${x + w + gap},${y + h} h${c} M${x + w},${y + h + gap} v${c}`} />
+  </g>
+  <g class="dim">
+    <line x1={x} y1={y + h + 34} x2={x + w} y2={y + h + 34} marker-start="url(#arrow)" marker-end="url(#arrow)" />
+    <text x={x + w / 2} y={y + h + 27} text-anchor="middle">{width} px</text>
+    <line x1={x + w + 34} y1={y} x2={x + w + 34} y2={y + h} marker-start="url(#arrow)" marker-end="url(#arrow)" />
+    <text x={x + w + 44} y={y + h / 2} text-anchor="middle" transform={`rotate(90 ${x + w + 44} ${y + h / 2})`}>{height} px</text>
+  </g>
+</svg>

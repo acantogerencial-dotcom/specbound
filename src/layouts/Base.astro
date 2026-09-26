@@ -1,0 +1,45 @@
+---
+import '../styles/global.css';
+import { SITE } from '../site.config.js';
+interface Props { title: string; description: string }
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, SITE.url).href;
+const fullTitle = title === SITE.name ? `${SITE.name}: ${SITE.tagline}` : `${title} | ${SITE.name}`;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonical} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <slot name="head" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="/">
+      <img src="/favicon.svg" alt="" width="28" height="28" />
+      <span>{SITE.name}</span>
+    </a>
+    <nav aria-label="Main">
+      <a href="/">Spec library</a>
+      <a href={SITE.repoUrl}>Open dataset</a>
+    </nav>
+  </header>
+  <main id="main"><slot /></main>
+  <footer class="site-footer">
+    <p>Specs are pulled from official platform documentation and linked to their source. Spotted an error? <a href={`${SITE.repoUrl}/issues/new?title=Spec%20error`}>Report it</a>.</p>
+    <p>Spec data is open under CC BY 4.0.</p>
+  </footer>
+</body>
+</html>

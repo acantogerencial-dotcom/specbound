@@ -1,0 +1,55 @@
+{
+  "id": "iab-medium-rectangle-300x250",
+  "platform": {
+    "slug": "iab",
+    "name": "IAB Standard Display"
+  },
+  "channel": "display",
+  "placement": "Medium Rectangle",
+  "slug": "medium-rectangle-300x250",
+  "summary": "300×250 px. The most widely sold display unit; fits in-content and sidebar slots.",
+  "creative_types": [
+    "image",
+    "animated-image",
+    "html5"
+  ],
+  "dimensions": [
+    {
+      "width": 300,
+      "height": 250,
+      "label": "Standard"
+    },
+    {
+      "width": 600,
+      "height": 500,
+      "label": "2x retina, served at standard size"
+    }
+  ],
+  "aspect_ratios": [],
+  "file": {
+    "formats": [
+      "jpg",
+      "png",
+      "gif",
+      "html5"
+    ],
+    "max_size_kb": null,
+    "initial_load_kb": null,
+    "subload_kb": null
+  },
+  "video": null,
+  "safe_zone": null,
+  "text_limits": [],
+  "notes": [
+    "Most publishers and ad servers set their own file-size caps on top of IAB guidance. Check the buy's IO."
+  ],
+  "sources": [
+    "https://iabtechlab.com/standards/iab-new-ad-portfolio/"
+  ],
+  "verified_date": "2026-09-26",
+  "status": "needs_review",
+  "review_notes": [
+    "Seed entry: dimensions are the long-standing IAB size; confirm file-size and initial-load limits from the source on Day 3.",
+    "Confirm the source URL still resolves."
+  ]
+}

@@ -1,0 +1,28 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getPlatforms, CHANNELS } from '../../lib/specs.js';
+export function getStaticPaths() {
+  return getPlatforms().map((p) => ({ params: { platform: p.slug }, props: { p } }));
+}
+const { p } = Astro.props;
+---
+<Base title={`${p.name} ad specs`} description={`Every ${p.name} ad placement: sizes, file limits, and requirements, linked to the official source.`}>
+  <p class="crumbs"><a href="/">Spec library</a> / {p.name}</p>
+  <header class="spec-head">
+    <h1>{p.name} ad specs</h1>
+    <p class="lede">{p.specs.length} placement{p.specs.length === 1 ? '' : 's'} in {[...p.channels].map((c) => CHANNELS[c]).join(', ').toLowerCase()}.</p>
+  </header>
+  <section class="library">
+    <ul class="spec-list">
+      {p.specs.map((s) => (
+        <li>
+          <a href={`/${p.slug}/${s.slug}/`}>
+            <span>{s.placement}</span>
+            <span class="size">{s.dimensions?.[0] ? `${s.dimensions[0].width}×${s.dimensions[0].height}` : ''}</span>
+            <span class={s.status === 'verified' ? 'status' : 'status review'}>{s.status === 'verified' ? 'Verified' : 'Pending verification'}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>

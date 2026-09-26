@@ -1,0 +1,103 @@
+---
+import Base from '../../layouts/Base.astro';
+import Blueprint from '../../components/Blueprint.astro';
+import { SITE } from '../../site.config.js';
+import { getAllSpecs, CHANNELS, ratio, formatDate } from '../../lib/specs.js';
+
+export function getStaticPaths() {
+  return getAllSpecs().map((s) => ({ params: { platform: s.platform.slug, slug: s.slug }, props: { s } }));
+}
+const { s } = Astro.props;
+const pending = s.status !== 'verified';
+const UNKNOWN = pending ? 'Being verified' : 'Not stated by source';
+const first = s.dimensions?.[0];
+const list = (a) => (a && a.length ? a.join(', ') : null);
+const kb = (n) => (n == null ? null : n >= 1024 ? `${+(n / 1024).toFixed(2)} MB` : `${n} KB`);
+const secs = (n) => (n == null ? null : `${n}s`);
+
+const rows = [
+  ['Sizes', s.dimensions?.length ? s.dimensions.map((d) => `${d.width}×${d.height}${d.label ? ` (${d.label})` : ''}`).join('\n') : null],
+  ['Aspect ratio', s.aspect_ratios?.length ? s.aspect_ratios.join(', ') : first ? ratio(first.width, first.height) : null],
+  ['Creative types', list(s.creative_types)],
+];
+if (s.file) {
+  rows.push(['File formats', list(s.file.formats)]);
+  rows.push(['Max file size', kb(s.file.max_size_kb)]);
+  if (s.creative_types.includes('html5')) {
+    rows.push(['HTML5 initial load', kb(s.file.initial_load_kb)]);
+    rows.push(['HTML5 subload', kb(s.file.subload_kb)]);
+  }
+}
+if (s.video) {
+  const v = s.video;
+  rows.push(['Duration', v.allowed_durations_s?.length ? v.allowed_durations_s.map(secs).join(' or ') : v.min_duration_s != null || v.max_duration_s != null ? `${secs(v.min_duration_s) ?? '—'} to ${secs(v.max_duration_s) ?? '—'}` : null]);
+  rows.push(['Container', list(v.containers)]);
+  rows.push(['Video codec', list(v.video_codecs)]);
+  rows.push(['Audio codec', list(v.audio_codecs)]);
+  rows.push(['Bitrate', v.min_bitrate_kbps != null || v.max_bitrate_kbps != null ? `${v.min_bitrate_kbps ?? '—'} to ${v.max_bitrate_kbps ?? '—'} kbps` : null]);
+  rows.push(['Frame rate', v.frame_rates?.length ? v.frame_rates.map((f) => `${f} fps`).join(', ') : null]);
+  if (v.loudness_lufs != null) rows.push(['Loudness', `${v.loudness_lufs} LUFS`]);
+}
+if (s.safe_zone) {
+  const z = s.safe_zone;
+  rows.push(['Safe zone (keep clear)', ['top', 'bottom', 'left', 'right'].filter((k) => z[`${k}_px`] != null).map((k) => `${k} ${z[`${k}_px`]}px`).join(', ') || null]);
+}
+for (const t of s.text_limits ?? []) rows.push([`${t.field} length`, `${t.max_chars} characters max${t.recommended_chars ? `, ${t.recommended_chars} recommended` : ''}`]);
+
+const title = `${s.platform.name} ${s.placement} ad specs`;
+const description = s.summary ?? `${s.placement} on ${s.platform.name}: sizes, file limits, and requirements, linked to the official source.`;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: title,
+  description,
+  dateModified: s.verified_date,
+  isBasedOn: s.sources,
+  publisher: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+};
+const issueUrl = `${SITE.repoUrl}/issues/new?title=${encodeURIComponent(`Spec error: ${s.id}`)}&body=${encodeURIComponent(`Page: ${SITE.url}/${s.platform.slug}/${s.slug}/\n\nWhat is wrong:\n\nOfficial source showing the correct value:\n`)}`;
+---
+<Base title={title} description={description}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+  <p class="crumbs"><a href="/">Spec library</a> / <a href={`/${s.platform.slug}/`}>{s.platform.name}</a> / {s.placement}</p>
+
+  <header class="spec-head">
+    <h1>{title}</h1>
+    {s.summary && <p class="lede">{s.summary}</p>}
+  </header>
+
+  {pending && (
+    <div class="notice" role="note">
+      <strong>Pending verification.</strong> These values haven't been confirmed against the official source yet. Check the source before trafficking.
+    </div>
+  )}
+
+  <div class="spec-grid">
+    <div>
+      {first && (
+        <div class="sheet"><Blueprint width={first.width} height={first.height} label={s.placement} /></div>
+      )}
+      <table class="spec-table" style="margin-top:1.5rem">
+        <caption class="sr-only" style="position:absolute;left:-999px">{title}</caption>
+        <tbody>
+          {rows.map(([k, v]) => (
+            <tr>
+              <th scope="row">{k}</th>
+              <td>{v ? <span style="white-space:pre-line">{v}</span> : <span class="unknown">{UNKNOWN}</span>}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <aside class="side">
+      <h2>Channel</h2>
+      <p>{CHANNELS[s.channel]}</p>
+      {s.notes?.length > 0 && (<><h2>Before you export</h2><ul>{s.notes.map((n) => <li>{n}</li>)}</ul></>)}
+      <h2>Source</h2>
+      <ul class="source">{s.sources.map((u) => <li><a href={u} rel="nofollow noopener">{new URL(u).hostname}{new URL(u).pathname}</a></li>)}</ul>
+      <p><span class={pending ? 'status review' : 'status'}>{pending ? 'Pending verification' : 'Verified'}, checked {formatDate(s.verified_date)}</span></p>
+      <p><a href={issueUrl}>Report an error on this page</a></p>
+    </aside>
+  </div>
+</Base>
