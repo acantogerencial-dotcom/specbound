@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "astro dev",
     "validate": "node scripts/validate-data.mjs",
+    "test": "node --test tests/*.test.mjs",
     "build": "npm run validate && astro build",
     "preview": "astro preview"
   },

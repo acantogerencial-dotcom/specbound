@@ -1,0 +1,125 @@
+---
+// Drop-a-file checker. Runs entirely in the browser: files are never uploaded.
+interface Props { spec: object }
+const { spec } = Astro.props;
+---
+<section class="checker" aria-labelledby="checker-title" data-spec={JSON.stringify(spec)}>
+  <div class="checker-head">
+    <h2 id="checker-title">Check your file</h2>
+    <p>Your file never leaves your browser.</p>
+  </div>
+  <label class="drop">
+    <input type="file" multiple accept=".jpg,.jpeg,.png,.gif,.webp,.mp4,.mov,.zip" />
+    <span class="drop-main">Drop a file here or <u>choose one</u></span>
+    <span class="drop-sub">JPG, PNG, GIF, WebP, MP4, MOV, or an HTML5 .zip</span>
+  </label>
+  <div class="reports" aria-live="polite"></div>
+</section>
+
+<script>
+  import { probe } from '../lib/validator/probe.js';
+  import { checkFile } from '../lib/validator/checks.js';
+
+  const ICON = { pass: '✓', fail: '✕', warn: '!', skip: '–', info: 'i' };
+  const LABEL = { pass: 'Passes', fail: 'Fails', warn: 'Needs a look', skip: 'Not checked', info: 'Note' };
+  const VERDICT = {
+    pass: 'Passes every check this spec defines.',
+    warn: 'Passes, with warnings worth a look.',
+    fail: 'Will likely be rejected. Fix the items marked ✕.',
+  };
+  const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+
+  function render(file, { verdict, results }) {
+    const rows = results.map((r) => `
+      <tr class="st-${r.status}">
+        <td class="st"><span aria-hidden="true">${ICON[r.status]}</span><span class="sr">${LABEL[r.status]}</span></td>
+        <th scope="row">${esc(r.rule)}</th>
+        <td class="mono" data-label="Spec">${esc(r.expected)}</td>
+        <td class="mono" data-label="Your file">${esc(r.actual)}</td>
+        <td class="fix">${esc(r.fix ?? '')}</td>
+      </tr>`).join('');
+    return `
+      <article class="report v-${verdict}">
+        <header><span class="badge">${LABEL[verdict]}</span><strong class="fname">${esc(file.name)}</strong><span class="vtext">${VERDICT[verdict]}</span></header>
+        <div class="table-wrap"><table>
+          <thead><tr><th><span class="sr">Result</span></th><th>Check</th><th>Spec</th><th>Your file</th><th>What to do</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table></div>
+      </article>`;
+  }
+
+  for (const root of document.querySelectorAll('.checker')) {
+    const spec = JSON.parse(root.dataset.spec);
+    const input = root.querySelector('input');
+    const drop = root.querySelector('.drop');
+    const out = root.querySelector('.reports');
+
+    async function run(files) {
+      out.innerHTML = '';
+      for (const file of [...files].slice(0, 10)) {
+        const holder = document.createElement('div');
+        holder.className = 'report pending';
+        holder.textContent = `Checking ${file.name}…`;
+        out.append(holder);
+        try {
+          const meta = await probe(file);
+          holder.outerHTML = render(file, checkFile(meta, spec));
+        } catch (e) {
+          holder.outerHTML = render(file, { verdict: 'fail', results: [{ rule: 'File', status: 'fail', expected: 'A readable ad file', actual: 'Error', fix: 'This file could not be read. Try exporting it again.' }] });
+        }
+      }
+    }
+    input.addEventListener('change', () => input.files.length && run(input.files));
+    drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.classList.add('over'); });
+    drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+    drop.addEventListener('drop', (e) => { e.preventDefault(); drop.classList.remove('over'); if (e.dataTransfer.files.length) run(e.dataTransfer.files); });
+  }
+</script>
+
+<style is:global>
+.checker { margin: 0 0 2.5rem; }
+.checker .checker-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: .75rem; }
+.checker .checker-head p { margin: 0; color: var(--muted); font-size: .9375rem; }
+.checker .drop {
+    position: relative; display: grid; place-items: center; gap: .35rem; text-align: center;
+    padding: 2.25rem 1rem; border: 2px dashed var(--cyan); border-radius: 6px; background: #fff; cursor: pointer;
+    transition: background-color .15s ease;
+  }
+.checker .drop:hover, .checker .drop.over { background: rgba(56, 189, 248, .08); }
+.checker .drop:focus-within { outline: 3px solid var(--cyan); outline-offset: 2px; }
+.checker .drop input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.checker .drop-main { font-weight: 600; font-size: 1.0625rem; }
+.checker .drop-sub { color: var(--muted); font-size: .875rem; }
+.checker .reports { display: grid; gap: 1rem; margin-top: 1rem; }
+.checker .report { border: 1px solid var(--line); border-radius: 6px; background: #fff; overflow: hidden; }
+.checker .report.pending { padding: 1rem; color: var(--muted); }
+.checker .report header { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; padding: .85rem 1rem; border-bottom: 1px solid var(--line); }
+.checker .badge { font-weight: 700; font-size: .8125rem; padding: .2rem .55rem; border-radius: 999px; color: #fff; }
+.checker .v-pass .badge { background: #15803D; } .checker .v-warn .badge { background: #B45309; } .checker .v-fail .badge { background: #B91C1C; }
+.checker .fname { font-family: var(--mono); font-weight: 500; word-break: break-all; }
+.checker .vtext { color: var(--muted); font-size: .9375rem; }
+.checker .table-wrap { overflow-x: auto; }
+.checker table { width: 100%; border-collapse: collapse; font-size: .9375rem; }
+.checker th, .checker td { text-align: left; padding: .6rem .75rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+.checker thead th { font-weight: 500; color: var(--muted); font-size: .8125rem; }
+.checker tbody th { font-weight: 600; white-space: nowrap; }
+.checker tr:last-child > * { border-bottom: 0; }
+.checker .mono { font-family: var(--mono); font-size: .875rem; }
+.checker .fix { color: var(--ink-2); min-width: 14rem; }
+.checker .st { width: 2rem; font-weight: 700; text-align: center; }
+.checker .st-pass .st { color: #15803D; } .checker .st-fail .st { color: #B91C1C; } .checker .st-warn .st { color: #B45309; } .checker .st-skip .st, .checker .st-info .st { color: var(--muted); }
+.checker .st-fail { background: #FEF2F2; } .checker .st-warn { background: #FFFBEB; }
+.checker .st-skip td, .checker .st-skip th { color: var(--muted); }
+.checker .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+@media (max-width: 640px) {
+  .checker thead { display: none; }
+  .checker table, .checker tbody { display: block; }
+  .checker tbody tr { display: grid; grid-template-columns: 1.75rem 1fr; padding: .6rem .75rem; border-bottom: 1px solid var(--line); gap: .15rem 0; }
+  .checker tbody tr:last-child { border-bottom: 0; }
+  .checker tbody tr > * { border: 0; padding: 0; }
+  .checker .st { grid-row: span 4; text-align: left; width: auto; }
+  .checker tbody td.mono::before { content: attr(data-label) ": "; font-family: var(--sans); color: var(--muted); }
+  .checker .fix { min-width: 0; margin-top: .2rem; }
+  .checker .fix:empty { display: none; }
+}
+</style>

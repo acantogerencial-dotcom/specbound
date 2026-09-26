@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Blueprint from '../../components/Blueprint.astro';
+import Validator from '../../components/Validator.astro';
 import { SITE } from '../../site.config.js';
 import { getAllSpecs, CHANNELS, ratio, formatDate } from '../../lib/specs.js';
 
@@ -71,6 +72,8 @@ const issueUrl = `${SITE.repoUrl}/issues/new?title=${encodeURIComponent(`Spec er
       <strong>Pending verification.</strong> These values haven't been confirmed against the official source yet. Check the source before trafficking.
     </div>
   )}
+
+  <Validator spec={s} />
 
   <div class="spec-grid">
     <div>
