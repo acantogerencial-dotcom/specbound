@@ -1,0 +1,980 @@
+{
+  "_about": "Official sources the Spec Sentinel agent watches. Official documentation only: no blogs, agencies, or spec aggregators. fetch = static (plain HTTP), browser (needs headless Chrome), or pdf. access = public, partial (some specs gated), or gated.",
+  "updated": "2026-09-26",
+  "sources": [
+    {
+      "platform": {
+        "slug": "iab",
+        "name": "IAB Standard Display"
+      },
+      "channel": "display",
+      "title": "IAB New Ad Portfolio",
+      "url": "https://iabtechlab.com/standards/iab-new-ad-portfolio/",
+      "covers": [
+        "standard display sizes",
+        "HTML5 load budgets"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 1,
+      "note": "Day 1 seed source; confirm URL still resolves on first Sentinel run."
+    },
+    {
+      "platform": {
+        "slug": "google-ads",
+        "name": "Google Ads"
+      },
+      "channel": "display",
+      "title": "Google Ads specs hub: formats, sizes, best practices",
+      "url": "https://support.google.com/google-ads/answer/13676244",
+      "covers": [
+        "search",
+        "display",
+        "demand gen",
+        "app",
+        "video"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "youtube",
+        "name": "YouTube (Google Ads)"
+      },
+      "channel": "online-video",
+      "title": "Video ads specs and format requirements",
+      "url": "https://support.google.com/google-ads/answer/17091270?hl=en",
+      "covers": [
+        "in-stream",
+        "in-feed",
+        "bumper",
+        "masthead",
+        "companion banner"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "youtube",
+        "name": "YouTube (Google Ads)"
+      },
+      "channel": "online-video",
+      "title": "About video ad specs (safe zones, labels)",
+      "url": "https://support.google.com/google-ads/answer/13547298?hl=en",
+      "covers": [
+        "safe zones",
+        "aspect ratios",
+        "AI labels"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "youtube",
+        "name": "YouTube (Google Ads)"
+      },
+      "channel": "ctv",
+      "title": "About YouTube TV ad formats",
+      "url": "https://support.google.com/google-ads/answer/14442864",
+      "covers": [
+        "YouTube TV 30s/60s",
+        "non-skippable",
+        "branded slates"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 2
+    },
+    {
+      "platform": {
+        "slug": "youtube",
+        "name": "YouTube (Google Ads)"
+      },
+      "channel": "online-video",
+      "title": "About video ad formats",
+      "url": "https://support.google.com/google-ads/answer/2375464?hl=en",
+      "covers": [
+        "format overview"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 3
+    },
+    {
+      "platform": {
+        "slug": "amazon-ads",
+        "name": "Amazon Ads"
+      },
+      "channel": "retail-media",
+      "title": "Amazon Ads ad specs hub",
+      "url": "https://advertising.amazon.com/resources/ad-specs",
+      "covers": [
+        "all Amazon ad products index"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "amazon-ads",
+        "name": "Amazon Ads"
+      },
+      "channel": "retail-media",
+      "title": "E-commerce display creatives",
+      "url": "https://advertising.amazon.com/resources/ad-specs/ecommerce",
+      "covers": [
+        "REC sizes",
+        "headline limits",
+        "custom image rules"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "amazon-ads",
+        "name": "Amazon Ads"
+      },
+      "channel": "retail-media",
+      "title": "Component-based creative (Asset-based, Brand Store)",
+      "url": "https://advertising.amazon.com/resources/ad-specs/component-based-creative",
+      "covers": [
+        "responsive display",
+        "in-feed native"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 2
+    },
+    {
+      "platform": {
+        "slug": "amazon-ads",
+        "name": "Amazon Ads"
+      },
+      "channel": "ctv",
+      "title": "Streaming TV & Prime Video ad specs",
+      "url": "https://advertising.amazon.com/resources/ad-specs/dsp/video/streaming-tv-prime-video-ads",
+      "covers": [
+        "Prime Video",
+        "Fire TV",
+        "interactive video ads",
+        "VAST rules"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "amazon-ads",
+        "name": "Amazon Ads"
+      },
+      "channel": "retail-media",
+      "title": "Sponsored Brands video",
+      "url": "https://advertising.amazon.com/en-us/resources/ad-specs/sponsored-brands-video",
+      "covers": [
+        "Sponsored Brands video"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "amazon-ads",
+        "name": "Amazon Ads"
+      },
+      "channel": "display",
+      "title": "Amazon DSP mobile banners",
+      "url": "https://advertising.amazon.com/resources/ad-specs/dsp/mobile-banners",
+      "covers": [
+        "mobile banner sizes",
+        "2x resolution"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 2
+    },
+    {
+      "platform": {
+        "slug": "amazon-ads",
+        "name": "Amazon Ads"
+      },
+      "channel": "retail-media",
+      "title": "Brand creatives (logo and asset requirements)",
+      "url": "https://advertising.amazon.com/resources/ad-specs/how-to-build-brand-creatives-to-engage-amazon-shoppers",
+      "covers": [
+        "logo",
+        "custom images"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 3
+    },
+    {
+      "platform": {
+        "slug": "meta",
+        "name": "Meta (Facebook, Instagram, Threads)"
+      },
+      "channel": "social",
+      "title": "Meta ads guide hub",
+      "url": "https://www.facebook.com/business/ads-guide/update",
+      "covers": [
+        "all placements index"
+      ],
+      "fetch": "browser",
+      "access": "public",
+      "priority": 1,
+      "note": "Guide is heavily scripted; fetch with a headless browser."
+    },
+    {
+      "platform": {
+        "slug": "meta",
+        "name": "Meta (Facebook, Instagram, Threads)"
+      },
+      "channel": "social",
+      "title": "Image ads",
+      "url": "https://www.facebook.com/business/ads-guide/update/image",
+      "covers": [
+        "feed",
+        "stories",
+        "reels",
+        "right column",
+        "marketplace"
+      ],
+      "fetch": "browser",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "meta",
+        "name": "Meta (Facebook, Instagram, Threads)"
+      },
+      "channel": "social",
+      "title": "Video ads",
+      "url": "https://www.facebook.com/business/ads-guide/update/video",
+      "covers": [
+        "feed",
+        "in-stream",
+        "reels",
+        "stories"
+      ],
+      "fetch": "browser",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "meta",
+        "name": "Meta (Facebook, Instagram, Threads)"
+      },
+      "channel": "social",
+      "title": "Carousel ads",
+      "url": "https://www.facebook.com/business/ads-guide/update/carousel",
+      "covers": [
+        "carousel cards"
+      ],
+      "fetch": "browser",
+      "access": "public",
+      "priority": 2
+    },
+    {
+      "platform": {
+        "slug": "meta",
+        "name": "Meta (Facebook, Instagram, Threads)"
+      },
+      "channel": "social",
+      "title": "Collection ads",
+      "url": "https://www.facebook.com/business/ads-guide/update/collection",
+      "covers": [
+        "collection"
+      ],
+      "fetch": "browser",
+      "access": "public",
+      "priority": 2
+    },
+    {
+      "platform": {
+        "slug": "meta",
+        "name": "Meta (Facebook, Instagram, Threads)"
+      },
+      "channel": "social",
+      "title": "Image ads on Facebook Reels",
+      "url": "https://www.facebook.com/business/ads-guide/update/image/facebook-facebook-reels",
+      "covers": [
+        "reels image",
+        "safe zone"
+      ],
+      "fetch": "browser",
+      "access": "public",
+      "priority": 2
+    },
+    {
+      "platform": {
+        "slug": "tiktok",
+        "name": "TikTok"
+      },
+      "channel": "social",
+      "title": "Auction in-feed ads",
+      "url": "https://ads.tiktok.com/help/article/video-ads-specifications",
+      "covers": [
+        "in-feed video",
+        "image",
+        "safe zone downloads"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "tiktok",
+        "name": "TikTok"
+      },
+      "channel": "social",
+      "title": "TopView",
+      "url": "https://ads.tiktok.com/resources/help/article/tiktok-reservation-topview",
+      "covers": [
+        "TopView",
+        "safe zone"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "tiktok",
+        "name": "TikTok"
+      },
+      "channel": "social",
+      "title": "Reservation in-feed (Reach & Frequency)",
+      "url": "https://ads.tiktok.com/help/article/tiktok-reservation-in-feed-ads-reach-frequency?redirected=1",
+      "covers": [
+        "reservation in-feed",
+        "Spark Ads"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "tiktok",
+        "name": "TikTok"
+      },
+      "channel": "social",
+      "title": "Global App Bundle video",
+      "url": "https://ads.tiktok.com/help/article/global-app-bundle-video-ad-specifications?lang=en",
+      "covers": [
+        "CapCut",
+        "Pangle-adjacent placements"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 3
+    },
+    {
+      "platform": {
+        "slug": "tiktok",
+        "name": "TikTok"
+      },
+      "channel": "social",
+      "title": "Global App Bundle image",
+      "url": "https://ads.tiktok.com/help/article/global-app-bundle-image-ad-specifications?q=image+sp&redirected=2",
+      "covers": [
+        "app open",
+        "banner",
+        "interstitial"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 3
+    },
+    {
+      "platform": {
+        "slug": "tiktok",
+        "name": "TikTok"
+      },
+      "channel": "social",
+      "title": "Branded Mission",
+      "url": "https://ads.tiktok.com/help/article/branded-mission-ad-specs?lang=en",
+      "covers": [
+        "creator example videos"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 3
+    },
+    {
+      "platform": {
+        "slug": "tiktok",
+        "name": "TikTok"
+      },
+      "channel": "social",
+      "title": "Streaming Ads",
+      "url": "https://ads.tiktok.com/help/article/creative-specifications-for-streaming-ads",
+      "covers": [
+        "media card",
+        "catalog images"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 2
+    },
+    {
+      "platform": {
+        "slug": "tiktok",
+        "name": "TikTok"
+      },
+      "channel": "social",
+      "title": "Travel Ads",
+      "url": "https://ads.tiktok.com/resources/help/article/list-of-creative-specifications-for-travel-ads",
+      "covers": [
+        "catalog video",
+        "image"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 3
+    },
+    {
+      "platform": {
+        "slug": "tiktok",
+        "name": "TikTok"
+      },
+      "channel": "social",
+      "title": "Automotive Ads",
+      "url": "https://ads.tiktok.com/help/article/creative-specifications-for-automotive-ads",
+      "covers": [
+        "catalog carousel",
+        "end card"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 3
+    },
+    {
+      "platform": {
+        "slug": "tiktok",
+        "name": "TikTok"
+      },
+      "channel": "social",
+      "title": "Video Packages",
+      "url": "https://ads.tiktok.com/help/article/specifications-for-video-packages",
+      "covers": [
+        "catalog video templates"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 3
+    },
+    {
+      "platform": {
+        "slug": "linkedin",
+        "name": "LinkedIn"
+      },
+      "channel": "social",
+      "title": "Sponsored Content specs hub",
+      "url": "https://www.linkedin.com/help/lms/answer/a423663",
+      "covers": [
+        "single image",
+        "video",
+        "carousel",
+        "document",
+        "event",
+        "job"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "linkedin",
+        "name": "LinkedIn"
+      },
+      "channel": "social",
+      "title": "Single image ads",
+      "url": "https://www.linkedin.com/help/lms/answer/a426534/single-image-ads-advertising-specifications?lang=en",
+      "covers": [
+        "single image"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "linkedin",
+        "name": "LinkedIn"
+      },
+      "channel": "social",
+      "title": "Video ads",
+      "url": "https://www.linkedin.com/help/lms/answer/a424737",
+      "covers": [
+        "video"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 1,
+      "note": "LinkedIn help URLs redirect between answer IDs; store the final URL after first fetch."
+    },
+    {
+      "platform": {
+        "slug": "linkedin",
+        "name": "LinkedIn"
+      },
+      "channel": "social",
+      "title": "Carousel ads",
+      "url": "https://www.linkedin.com/help/lms/answer/a427022",
+      "covers": [
+        "carousel"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 2
+    },
+    {
+      "platform": {
+        "slug": "linkedin",
+        "name": "LinkedIn"
+      },
+      "channel": "social",
+      "title": "All advertising specifications",
+      "url": "https://www.linkedin.com/help/lms/topic/a3046",
+      "covers": [
+        "text ads",
+        "dynamic ads",
+        "spotlight",
+        "document ads"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 2
+    },
+    {
+      "platform": {
+        "slug": "snapchat",
+        "name": "Snapchat"
+      },
+      "channel": "social",
+      "title": "Ad specifications hub",
+      "url": "https://businesshelp.snapchat.com/s/topic/0TO0y000000YVcgGAG/ad-specifications-and-guidelines?language=en_US",
+      "covers": [
+        "all Snap ad types index"
+      ],
+      "fetch": "browser",
+      "access": "public",
+      "priority": 1,
+      "note": "Salesforce help center; content renders client-side."
+    },
+    {
+      "platform": {
+        "slug": "snapchat",
+        "name": "Snapchat"
+      },
+      "channel": "social",
+      "title": "Single Image or Video",
+      "url": "https://businesshelp.snapchat.com/s/article/top-snap-specs?language=en_US",
+      "covers": [
+        "single image",
+        "video"
+      ],
+      "fetch": "browser",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "snapchat",
+        "name": "Snapchat"
+      },
+      "channel": "social",
+      "title": "Story Ads",
+      "url": "https://businesshelp.snapchat.com/s/article/story-ad-specs?language=en_US",
+      "covers": [
+        "story ads",
+        "tiles"
+      ],
+      "fetch": "browser",
+      "access": "public",
+      "priority": 2
+    },
+    {
+      "platform": {
+        "slug": "snapchat",
+        "name": "Snapchat"
+      },
+      "channel": "social",
+      "title": "Collection Ads",
+      "url": "https://businesshelp.snapchat.com/s/article/collection-ad-specs?language=en_US",
+      "covers": [
+        "collection",
+        "safe zone"
+      ],
+      "fetch": "browser",
+      "access": "public",
+      "priority": 2
+    },
+    {
+      "platform": {
+        "slug": "snapchat",
+        "name": "Snapchat"
+      },
+      "channel": "social",
+      "title": "Product catalog",
+      "url": "https://businesshelp.snapchat.com/s/article/product-catalog-specs?language=en_US",
+      "covers": [
+        "catalog fields"
+      ],
+      "fetch": "browser",
+      "access": "public",
+      "priority": 3
+    },
+    {
+      "platform": {
+        "slug": "pinterest",
+        "name": "Pinterest"
+      },
+      "channel": "social",
+      "title": "Ad product specs",
+      "url": "https://help.pinterest.com/en/business/article/pinterest-product-specs",
+      "covers": [
+        "standard",
+        "video",
+        "max width",
+        "carousel",
+        "collections",
+        "idea",
+        "showcase",
+        "quiz"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "pinterest",
+        "name": "Pinterest"
+      },
+      "channel": "social",
+      "title": "Pin specs (organic)",
+      "url": "https://help.pinterest.com/en/article/review-pin-specs",
+      "covers": [
+        "organic pin specs"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 3
+    },
+    {
+      "platform": {
+        "slug": "reddit",
+        "name": "Reddit"
+      },
+      "channel": "social",
+      "title": "Ad unit specifications hub",
+      "url": "https://business.reddithelp.com/s/article/Reddit-Ad-Unit-Specifications",
+      "covers": [
+        "image",
+        "video",
+        "carousel",
+        "free-form",
+        "takeovers"
+      ],
+      "fetch": "browser",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "reddit",
+        "name": "Reddit"
+      },
+      "channel": "social",
+      "title": "Image ads",
+      "url": "https://business.reddithelp.com/s/article/image-ad-specifications",
+      "covers": [
+        "image",
+        "thumbnail"
+      ],
+      "fetch": "browser",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "reddit",
+        "name": "Reddit"
+      },
+      "channel": "social",
+      "title": "Ad format by objective",
+      "url": "https://business.reddithelp.com/s/article/ad-format-by-objective",
+      "covers": [
+        "DPA",
+        "format matrix"
+      ],
+      "fetch": "browser",
+      "access": "public",
+      "priority": 3
+    },
+    {
+      "platform": {
+        "slug": "x",
+        "name": "X"
+      },
+      "channel": "social",
+      "title": "Creative ad specifications",
+      "url": "https://business.x.com/en/help/campaign-setup/creative-ad-specifications",
+      "covers": [
+        "image",
+        "video",
+        "carousel",
+        "takeovers",
+        "text limits"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "x",
+        "name": "X"
+      },
+      "channel": "social",
+      "title": "Carousel ads",
+      "url": "https://business.x.com/en/advertising/carousels",
+      "covers": [
+        "image carousel",
+        "video carousel"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 2
+    },
+    {
+      "platform": {
+        "slug": "roku",
+        "name": "Roku"
+      },
+      "channel": "ctv",
+      "title": "Creative technical requirements (Ads Manager)",
+      "url": "https://help.ads.roku.com/en/articles/7193013-creative-technical-requirements",
+      "covers": [
+        "video",
+        "action ad overlays"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "roku",
+        "name": "Roku"
+      },
+      "channel": "ctv",
+      "title": "Creative guidelines (Ads Manager)",
+      "url": "https://help.ads.roku.com/en/articles/7154647-creative-guidelines",
+      "covers": [
+        "video",
+        "content rules"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 2
+    },
+    {
+      "platform": {
+        "slug": "roku",
+        "name": "Roku"
+      },
+      "channel": "ctv",
+      "title": "Roku ad types",
+      "url": "https://advertising.roku.com/solutions/advertise/ad-types",
+      "covers": [
+        "home screen",
+        "marquee",
+        "action ads"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 2
+    },
+    {
+      "platform": {
+        "slug": "disney",
+        "name": "Disney Advertising (Disney+, Hulu, ESPN)"
+      },
+      "channel": "ctv",
+      "title": "Video Commercial (media kit)",
+      "url": "https://products.disneyadvertising.com/video-commercial/",
+      "covers": [
+        ":15/:30 video",
+        "bitrate",
+        "letterbox rules",
+        "QR codes"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "disney",
+        "name": "Disney Advertising (Disney+, Hulu, ESPN)"
+      },
+      "channel": "ctv",
+      "title": "Hulu media kit index",
+      "url": "https://www.disneyadvertising.com/mediakit/hulu/",
+      "covers": [
+        "all Hulu ad products"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "disney",
+        "name": "Disney Advertising (Disney+, Hulu, ESPN)"
+      },
+      "channel": "ctv",
+      "title": "Disney+ video ad (PDF)",
+      "url": "https://files.disneyadvertising.com/MediaKit/Disney-Plus/disneyplus_video.pdf",
+      "covers": [
+        "Disney+ video",
+        "UI safe area"
+      ],
+      "fetch": "pdf",
+      "access": "public",
+      "priority": 2
+    },
+    {
+      "platform": {
+        "slug": "instacart",
+        "name": "Instacart Ads"
+      },
+      "channel": "retail-media",
+      "title": "Display creative guidelines",
+      "url": "https://docs.instacart.com/ads_manager/display_ads/display_creative_guidelines",
+      "covers": [
+        "display banner",
+        "shoppable display"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "instacart",
+        "name": "Instacart Ads"
+      },
+      "channel": "retail-media",
+      "title": "Shoppable video creative guidelines",
+      "url": "https://docs.instacart.com/ads_manager/shoppable_video_ads/shoppable_video_ads_creative_guidelines",
+      "covers": [
+        "shoppable video",
+        "logo crop"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 1
+    },
+    {
+      "platform": {
+        "slug": "instacart",
+        "name": "Instacart Ads"
+      },
+      "channel": "retail-media",
+      "title": "Display ads overview",
+      "url": "https://docs.instacart.com/ads_manager/display_ads/overview",
+      "covers": [
+        "display ads index"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 3
+    },
+    {
+      "platform": {
+        "slug": "walmart-connect",
+        "name": "Walmart Connect"
+      },
+      "channel": "retail-media",
+      "title": "Onsite Display guide (Marketplace Learn)",
+      "url": "https://marketplacelearn.walmart.com/guides/Advertising/Walmart%20Connect/walmart-connect-advertising-onsite-display",
+      "covers": [
+        "onsite display overview"
+      ],
+      "fetch": "static",
+      "access": "partial",
+      "priority": 2,
+      "note": "Walmart builds display creative inside Creative Builder; full pixel specs are not published on a public page. Needs a human-sourced spec sheet."
+    },
+    {
+      "platform": {
+        "slug": "vistar",
+        "name": "Vistar Media"
+      },
+      "channel": "dooh",
+      "title": "Creatives best practices",
+      "url": "https://help.vistarmedia.com/hc/en-us/articles/360059687631-Creatives-Best-Practices",
+      "covers": [
+        "accepted formats",
+        "spec process",
+        "resizing"
+      ],
+      "fetch": "static",
+      "access": "partial",
+      "priority": 1,
+      "note": "Per-network specs come from Vistar's deal desk; this page covers the general rules."
+    },
+    {
+      "platform": {
+        "slug": "vistar",
+        "name": "Vistar Media"
+      },
+      "channel": "dooh",
+      "title": "Dynamic creative spec (open source)",
+      "url": "https://github.com/vistarmedia/dynamic-creative-spec",
+      "covers": [
+        "HTML5 dynamic DOOH",
+        "fallback rules"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 2
+    },
+    {
+      "platform": {
+        "slug": "lamar",
+        "name": "Lamar Advertising"
+      },
+      "channel": "dooh",
+      "title": "Programmatic DOOH media formats",
+      "url": "https://lamar.com/en/products/programmatic/media-formats",
+      "covers": [
+        "digital billboards",
+        "airports",
+        "place-based"
+      ],
+      "fetch": "static",
+      "access": "public",
+      "priority": 2
+    }
+  ]
+}

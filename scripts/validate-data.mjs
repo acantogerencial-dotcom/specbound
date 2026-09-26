@@ -49,10 +49,30 @@ for (const file of files) {
     errors.push(`${rel}: video.min_duration_s is greater than max_duration_s`);
 }
 
+// Source list checks: official pages only, no duplicates, known fetch modes.
+const BLOCKED = ['alladspecs.com', 'tinuiti.com', 'keynes.com', 'simulmedia.com', 'strikesocial.com', 'moda.app', 'adsuploader.com', 'thebrief.ai', 'foxwelldigital.com', 'doohmarketing.com'];
+const CHANNELS = schema.properties.channel.enum;
+const src = JSON.parse(readFileSync(join(ROOT, 'sources/sources.json'), 'utf8'));
+const seenUrls = new Set();
+src.sources.forEach((e, i) => {
+  const at = `sources/sources.json #${i + 1}`;
+  let u;
+  try { u = new URL(e.url); } catch { errors.push(`${at}: invalid url`); return; }
+  if (u.protocol !== 'https:') errors.push(`${at}: url must be https`);
+  if (BLOCKED.some((d) => u.hostname.endsWith(d))) errors.push(`${at}: ${u.hostname} is an aggregator, not an official source`);
+  if (seenUrls.has(e.url)) errors.push(`${at}: duplicate url`);
+  seenUrls.add(e.url);
+  if (!e.platform?.slug || !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(e.platform.slug)) errors.push(`${at}: bad platform.slug`);
+  if (!CHANNELS.includes(e.channel)) errors.push(`${at}: unknown channel "${e.channel}"`);
+  if (!['static', 'browser', 'pdf'].includes(e.fetch)) errors.push(`${at}: fetch must be static, browser, or pdf`);
+  if (!['public', 'partial', 'gated'].includes(e.access)) errors.push(`${at}: access must be public, partial, or gated`);
+  if (![1, 2, 3].includes(e.priority)) errors.push(`${at}: priority must be 1, 2, or 3`);
+});
+
 if (errors.length) {
   console.error(`\n✖ ${errors.length} problem(s) in spec data:\n`);
   for (const e of errors) console.error('  - ' + e);
   console.error('');
   process.exit(1);
 }
-console.log(`✔ ${files.length} spec file(s) valid.`);
+console.log(`✔ ${files.length} spec file(s) and ${src.sources.length} source(s) valid.`);
